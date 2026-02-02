@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Chi 💖</title>
+
+<style>
+body {
+  background: linear-gradient(#ffe6f0, #ffcce0);
+  font-family: "Comic Sans MS", Arial, sans-serif;
+  text-align: center;
+  padding-top: 40px;
+  overflow: hidden;
+}
+
+h1 { color: #ff1f6b; }
+p { font-size: 20px; }
+
+button {
+  font-size: 22px;
+  padding: 12px 26px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+}
+
+#yes {
+  background: #4CAF50;
+  color: white;
+  position: relative;
+}
+
+#no {
+  background: #ff4d4d;
+  color: white;
+}
+
+#message, #countdown {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-top: 20px;
+}
+
+.shake {
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0% { transform: translate(0); }
+  25% { transform: translate(6px); }
+  50% { transform: translate(-6px); }
+  75% { transform: translate(6px); }
+  100% { transform: translate(0); }
+}
+
+/* Fake iOS alert */
+.alert {
+  display: none;
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.3);
+  z-index: 999;
+}
+
+.alert button {
+  position: static;
+  background: #007AFF;
+  color: white;
+  margin-top: 10px;
+}
+
+/* Receipt */
+#receipt {
+  display: none;
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  width: 300px;
+  margin: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎀 Will you be my Valentine? 🎀</h1>
+<p>Yes or No 😌</p>
+<p><strong>For Chi 💖</strong></p>
+
+<button id="yes" onclick="yesClicked()">Yes</button>
+<button id="no" onmouseover="moveNo()" onclick="evilNo()">No</button>
+
+<p id="message"></p>
+<p id="countdown"></p>
+
+<!-- Alerts -->
+<div class="alert" id="alert1">
+  <p><strong>⚠️ Camera Detected 👁️</strong></p>
+  <p>Smile 😌 You look cute.</p>
+  <button onclick="closeAlert('alert1')">OK</button>
+</div>
+
+<div class="alert" id="alert2">
+  <p><strong>📸 Screenshot Blocked</strong></p>
+  <p>This moment is private 💖</p>
+  <button onclick="closeAlert('alert2')">OK</button>
+</div>
+
+<div class="alert" id="alert3">
+  <p><strong>💘 Compatibility Scan</strong></p>
+  <p>Result: <strong>99.9%</strong><br>No refunds.</p>
+  <button onclick="closeAlert('alert3')">Accept</button>
+</div>
+
+<script>
+let noCount = 0;
+let noScale = 1;
+let timerStarted = false;
+let timeLeft = 5;
+
+function moveNo() {
+  const no = document.getElementById("no");
+  no.style.left = Math.random() * (window.innerWidth - 120) + "px";
+  no.style.top = Math.random() * (window.innerHeight - 120) + "px";
+}
+
+function evilNo() {
+  noCount++;
+  document.body.classList.add("shake");
+  setTimeout(() => document.body.classList.remove("shake"), 400);
+
+  noScale -= 0.2;
+  document.getElementById("no").style.transform = `scale(${noScale})`;
+
+  if (noCount === 1) {
+    showAlert("alert1");
+    document.getElementById("message").innerText = "😐 You already hovered…";
+  } 
+  else if (noCount === 2) {
+    showAlert("alert2");
+    document.getElementById("message").innerText = "🤨 Screenshot attempt noted.";
+  } 
+  else if (noCount === 3) {
+    showAlert("alert3");
+    document.getElementById("message").innerText = "😈 You agreed yesterday actually.";
+    startCountdown();
+  } 
+  else {
+    yesClicked();
+  }
+}
+
+function showAlert(id) {
+  document.getElementById(id).style.display = "block";
+}
+
+function closeAlert(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+function startCountdown() {
+  if (timerStarted) return;
+  timerStarted = true;
+  const cd = document.getElementById("countdown");
+
+  const interval = setInterval(() => {
+    cd.innerText = `Auto-confirming YES in ${timeLeft}… 💖`;
+    timeLeft--;
+    if (timeLeft < 0) {
+      clearInterval(interval);
+      yesClicked();
+    }
+  }, 1000);
+}
+
+function yesClicked() {
+  document.body.innerHTML = `
+    <h1>💖 VALENTINE CONFIRMED 💖</h1>
+    <div id="receipt">
+      <h3>💌 Valentine Receipt</h3>
+      <p>Name: Chi</p>
+      <p>Status: ACCEPTED 😌</p>
+      <p>Compatibility: 99.9%</p>
+      <p>Cancellation: Not Available</p>
+      <p style="margin-top:10px;">🎀 Thank you for choosing love 🎀</p>
+    </div>
+  `;
+  document.getElementById("receipt").style.display = "block";
+}
+</script>
+
+</body>
+</html>
